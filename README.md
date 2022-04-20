@@ -31,5 +31,5 @@ request_counter{code="304",method="GET"} 20
 
 ## Docker
 
-Docker containers can be found [https://hub.docker.com/r/cubixle/groxy](here)
+Docker containers can be found [here](https://hub.docker.com/r/cubixle/groxy)
 
