@@ -31,5 +31,5 @@ request_counter{code="304",method="GET"} 20
 
 ## Docker
 
-Docker containers can be found here and are built for amd64 and arm64.
+Docker containers can be found [https://hub.docker.com/r/cubixle/groxy](here)
 
