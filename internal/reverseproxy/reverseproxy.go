@@ -19,6 +19,7 @@ type Proxy struct {
 }
 
 type File struct {
+	Debug     bool       `yaml:"debug"`
 	Endpoints []Endpoint `yaml:"endpoints"`
 }
 

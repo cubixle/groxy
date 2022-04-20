@@ -7,11 +7,11 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-func Logger() *zap.Logger {
-	// info level enabler
-	level := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
-		return level == zapcore.DebugLevel
-	})
+func Logger(debug bool) *zap.Logger {
+	level := zapcore.InfoLevel
+	if debug {
+		level = zapcore.DebugLevel
+	}
 
 	// write syncers
 	stdoutSyncer := zapcore.Lock(os.Stdout)

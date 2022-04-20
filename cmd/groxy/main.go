@@ -14,7 +14,9 @@ import (
 )
 
 func main() {
-	data, err := os.ReadFile("./groxy.yml")
+	cfgFile := getEnvVar("GROXY_CONFIG_FILE", "./groxy.yml")
+
+	data, err := os.ReadFile(cfgFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,19 +28,30 @@ func main() {
 		log.Fatal(err)
 	}
 
-	logger := logging.Logger()
+	logger := logging.Logger(eps.Debug)
 	defer logger.Sync()
 
 	handler := reverseproxy.NewReverseProxy(eps.Endpoints, logger)
 	go func() {
-		logger.Debug("starting metrics server")
-		if err := http.ListenAndServe("localhost:9090", promhttp.Handler()); err != nil {
+		logger.Info("starting metrics server")
+		port := getEnvVar("GROXY_METRICS_PORT", "9090")
+		if err := http.ListenAndServe(":"+port, promhttp.Handler()); err != nil {
 			log.Fatal(err)
 		}
 	}()
 
-	logger.Debug("starting reverse proxy")
-	if err := http.ListenAndServe("localhost:8080", handler); err != nil {
+	port := getEnvVar("GROXY_PORT", "8080")
+	logger.Info("starting reverse proxy")
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
+}
+
+func getEnvVar(name, defaultValue string) string {
+	v := os.Getenv(name)
+	if v == "" {
+		return defaultValue
+	}
+
+	return v
 }

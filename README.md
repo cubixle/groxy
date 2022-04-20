@@ -2,19 +2,22 @@
 
 Groxy is a lightweight, simple HTTP reverse proxy written in golang.
 
-Groxy was built to run in a docker container so is setup by default to listen on port 80.
+Groxy was built to run on port 8080 by default. This can be changed with the the `GROXY_PORT` environment variable.
 
 ## Config
 
 The config for groxy is very simple and will hopefully always be simple.
 
 ```yaml
+debug: false
 endpoints: 
   - addr: pihole.test
     remote_addr: "192.168.1.2:8017"
   - addr: trans.test
     remote_addr: "192.168.1.2:9091"
 ```
+
+By Default groxy will try and read a `groxy.yml` file from its current working directory. To override this you can use the environment variable `GROXY_CONFIG_FILE`.
 
 ## Metrics
 
